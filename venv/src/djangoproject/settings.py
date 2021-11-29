@@ -82,10 +82,14 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'sampledbmodel'
-    }
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': '',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://dbuser:apDnPjIs9GL1cwc8@cluster0.2hfa2.mongodb.net/test?authSource=admin&replicaSet=atlas-63d1qb-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
+            }  
+        }
 }
 
 # Password validation
