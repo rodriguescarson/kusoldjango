@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from .models import User
+from rest_framework.exceptions import AuthenticationFailed
 # Create your views here.
 class RegisterView(APIView):
     def post(self, request):
@@ -11,11 +12,10 @@ class RegisterView(APIView):
         serializer.save()
         return Response(serializer.data)
 
-
 class LoginView(APIView):
     def post(self,request):
         email = request.data['email']
-        passsword = request.data['password']
+        password = request.data['password']
 
         user = User.objects.filter(email=email).first()
 
