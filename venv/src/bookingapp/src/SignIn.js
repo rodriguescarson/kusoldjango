@@ -1,3 +1,5 @@
+import React, { useState, useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import {
   Grid,
   Box,
@@ -7,10 +9,11 @@ import {
   withStyles,
   TextField,
 } from "@material-ui/core";
+
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import Header from "./components/Header/Header";
 import OAuthSignIn from "./OAuthSignIn";
 import AdminHeader from "./components/Header/Header";
+import { UserContext } from './index'
 
 const styles = {
   box: {
@@ -22,6 +25,39 @@ const styles = {
 };
 
 function SignIn(props) {
+  const history = useHistory()
+  //  const { state, dispatch } = useContext(UserContext)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const PostData = () => {
+    fetch("/signin", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        password,
+        email,
+      })
+    }).then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          console.log(data.error)
+          alert(data.error)
+        }
+        else {
+          localStorage.setItem("jwt", data.token)
+          localStorage.setItem("user", JSON.stringify(data.user))
+
+          //          dispatch({ type: "USER", payload: data.user })
+          alert("Login Successful")
+          console.log("Login Successful")
+          history.push('/')
+        }
+      }).catch(err => console.log(err))
+  }
+
   const { classes } = props;
   return (
     <div>
@@ -42,8 +78,8 @@ function SignIn(props) {
           <Button color="inherit" href="/signup" variant="outlined" style={{minWidth:'180px'}}>Create Account</Button>
       </Toolbar>
   </AppBar><br /> */}
-  <AdminHeader purpose="Sign Up" h="/SignUp"/>
-      
+      <AdminHeader purpose="Sign Up" h="/SignUp" />
+
       <Box p={3} m="auto" className={classes.box}>
         <Typography variant="h4" align="center">
           Sign In
@@ -56,6 +92,7 @@ function SignIn(props) {
                 id="standard-basic"
                 label="Email"
                 type="email"
+                onChange={e => setEmail(e.target.value)}
                 variant="outlined"
                 required
                 fullWidth
@@ -69,6 +106,7 @@ function SignIn(props) {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={e => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -81,7 +119,7 @@ function SignIn(props) {
             <Grid item align="center">
               <Button
                 type="submit"
-                href="/admin"
+                onClick={() => PostData()}
                 variant="contained"
                 color="primary"
               >
@@ -94,6 +132,7 @@ function SignIn(props) {
                 href="/reset"
                 variant="contained"
                 color="primary"
+
               >
                 Forgot Email id or Password ?
               </Button>

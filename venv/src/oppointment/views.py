@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from .models import User
 from rest_framework.exceptions import AuthenticationFailed
 # Create your views here.
+
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -12,19 +14,20 @@ class RegisterView(APIView):
         serializer.save()
         return Response(serializer.data)
 
+
 class LoginView(APIView):
-    def post(self,request):
+    def post(self, request):
         email = request.data['email']
         password = request.data['password']
 
         user = User.objects.filter(email=email).first()
-
+        print(user)
         if user is None:
             raise AuthenticationFailed('User not found')
-        
+
         if not user.check_password(password):
             raise AuthenticationFailed('Incorrect Password')
 
         return Response({
-            'message' : 'success'
+            'message': 'success'
         })

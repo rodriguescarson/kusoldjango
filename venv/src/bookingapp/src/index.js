@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, createContext, useReducer, useContext } from 'react'
 import ReactDOM from "react-dom";
 import "./index.css";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ContactUs from "./ContactUs";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Route, Switch, BrowserRouter, useHistory } from "react-router-dom";
 import Navbar from "./components/landing_page/landing";
 import Reset from "./components/reset_pass/reset";
 import Admin from './Admin';
@@ -15,9 +15,25 @@ import Role from "./components/AdminPages/Role";
 import User from "./components/AdminPages/User";
 import Employee from "./components/AdminPages/Employee";
 import WorkingHours from "./components/AdminPages/WorkingHours";
+import { reducer, initialState } from './userReducer'
+
 // import WorkingHours from "./components/WorkingHours";
+export const UserContext = createContext()
 
 const ReactRouter = () => {
+  //  const [state, dispatch] = useReducer(reducer, initialState)
+  const history = useHistory()
+  //const { state, dispatch } = useContext(UserContext)
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"))
+
+    if (user) {
+      //  dispatch({ type: "USER", payload: user })
+
+    } else {
+      //      history.push('/signin')
+    }
+  }, [])
   return (
     <BrowserRouter>
       <Switch>
@@ -41,6 +57,7 @@ const ReactRouter = () => {
 };
 
 ReactDOM.render(
+
   <React.StrictMode>
     <ReactRouter />
   </React.StrictMode>,

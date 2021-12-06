@@ -1,9 +1,11 @@
+import React, { useState } from "react";
 import { Grid, Box, InputAdornment, Typography, Button, withStyles, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { PropTypes } from 'prop-types'
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import OAuthSignIn from './OAuthSignIn';
 import AlertDialogSlide from "./TermsAndCondition";
 import AdminHeader from "./components/Header/Header";
+import axios from 'axios';
 
 const styles = {
     root: {
@@ -53,6 +55,35 @@ function TermsAndCond() {
 
 function SignUp(props) {
     const { classes } = props;
+    const [fname, setFName] = useState("");
+    const [lname, setLName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [contact, setContact] = useState("");
+    const [businessName, setBusinessName] = useState("");
+    const [username, setUsername] = useState("");
+
+
+    function handleCreate() {
+        fetch("http://127.0.0.1:8000/api/register", {
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(
+                {
+                    username: username,
+                    email: email,
+                    password: password
+                }
+            )
+        }).then((res) => {
+            alert("usercreated!");
+        }).catch((error) => {
+            alert('There was an error! Please re-check your form.' + error);
+        });
+    }
+
     return (
         <div>
             {/* <AppBar position="static">
@@ -72,24 +103,31 @@ function SignUp(props) {
             <Button color="inherit" href="/signin" variant="outlined">Login</Button>
         </Toolbar>
     </AppBar><br /> */}
-    <AdminHeader purpose="Sign In" h="/signin" />
+            <AdminHeader purpose="Sign In" h="/signin" />
             <Box className={classes.box} m="auto" p={3} sx={{ boxShadow: 5 }}>
                 <Typography variant="h4" align="center">
                     Sign Up
                 </Typography> <br />
-                <form className={classes.forms}>
+                <form className={classes.forms} onSubmit={handleCreate}>
 
                     <Grid container direction={'row'} spacing={2}>
                         <Grid item xl={6} md={6} sm={12} xs={12}>
-                            <TextField id="standard-basic" label="First Name" variant="outlined" />
+                            <TextField id="standard-basic" onChange={e => setFName(e.target.value)}
+                                label="First Name" variant="outlined" />
                         </Grid>
                         <Grid item xl={6} md={6} sm={12} xs={12}>
-                            <TextField id="standard-basic" label="Last Name" variant="outlined" />
+                            <TextField onChange={e => setLName(e.target.value)}
+                                id="standard-basic" label="Last Name" variant="outlined" />
                         </Grid>
                     </Grid>
                     <br />
-                    <TextField label="Email Id" type="email" variant="outlined" fullWidth /> <br />
+                    <TextField label="Email Id" onChange={e => setEmail(e.target.value)}
+                        type="email" variant="outlined" fullWidth /> <br />
+
+                    <TextField label="Username" onChange={e => setUsername(e.target.value)}
+                        type="username" variant="outlined" fullWidth /> <br />
                     <TextField
+                        onChange={e => setPassword(e.target.value)}
                         id="standard-adornment-password"
                         label="Password"
                         type="password"
@@ -107,6 +145,7 @@ function SignUp(props) {
                         id="standard-adornment-password"
                         label="Confirm Password"
                         type="password"
+                        onChange={e => setConfirmPassword(e.target.value)}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -117,19 +156,21 @@ function SignUp(props) {
                     /> <br />
                     <Grid container direction={'row'} spacing={4}>
                         <Grid item>
-                            <TextField label="Contact Number" variant='outlined' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+                            <TextField label="Contact Number" onChange={e => setContact(e.target.value)} variant='outlined' inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
                         </Grid>
                         <Grid item>
-                            <TextField id="standard-basic" label="Business Name" variant="outlined" required />
+                            <TextField id="standard-basic" onChange={e => setBusinessName(e.target.value)} label="Business Name" variant="outlined" />
                         </Grid>
                     </Grid>
                     <br />
                     <TermsAndCond />
                     <br />
                     <div align="center">
-                        <Button type="submit" href="/admin" variant="contained" color="primary">
-                            Create Account
+                        <Button type="submit" variant="contained" color="primary">
+
+                            Submit
                         </Button>
+
                     </div>
 
                 </form>
