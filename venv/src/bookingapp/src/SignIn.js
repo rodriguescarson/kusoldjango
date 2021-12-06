@@ -31,7 +31,7 @@ function SignIn(props) {
   const [password, setPassword] = useState("")
 
   const PostData = () => {
-    fetch("/signin", {
+    fetch("http://127.0.0.1:8000/api/login", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
