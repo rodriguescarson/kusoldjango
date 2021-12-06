@@ -18,22 +18,22 @@ import WorkingHours from "./components/AdminPages/WorkingHours";
 import { reducer, initialState } from './userReducer'
 
 // import WorkingHours from "./components/WorkingHours";
-export const UserContext = createContext()
+// export const UserContext = createContext()
 
 const ReactRouter = () => {
-  //  const [state, dispatch] = useReducer(reducer, initialState)
-  const history = useHistory()
-  //const { state, dispatch } = useContext(UserContext)
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"))
+  // //  const [state, dispatch] = useReducer(reducer, initialState)
+  // const history = useHistory()
+  // //const { state, dispatch } = useContext(UserContext)
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem("user"))
 
-    if (user) {
-      //  dispatch({ type: "USER", payload: user })
+  //   if (user) {
+  //     //  dispatch({ type: "USER", payload: user })
 
-    } else {
-      //      history.push('/signin')
-    }
-  }, [])
+  //   } else {
+  //     //      history.push('/signin')
+  //   }
+  // }, [])
   return (
     <BrowserRouter>
       <Switch>
@@ -58,9 +58,8 @@ const ReactRouter = () => {
 
 ReactDOM.render(
 
-  <React.StrictMode>
-    <ReactRouter />
-  </React.StrictMode>,
+  <ReactRouter />
+  ,
   document.getElementById("root")
 );
 

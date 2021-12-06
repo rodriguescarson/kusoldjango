@@ -67,21 +67,25 @@ function SignUp(props) {
 
     function handleCreate() {
         fetch("http://127.0.0.1:8000/api/register", {
-            method: "post",
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify(
-                {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }, body:
+                JSON.stringify({
                     username: username,
                     email: email,
                     password: password
-                }
-            )
+                })
         }).then((res) => {
-            alert("usercreated!");
-        }).catch((error) => {
-            alert('There was an error! Please re-check your form.' + error);
-        });
+
+            return res.json()
+        })
+            .then((res) => {
+                alert("usercreated!");
+            }).catch((error) => {
+                alert('There was an error! Please re-check your form.' + error);
+            });
     }
 
     return (

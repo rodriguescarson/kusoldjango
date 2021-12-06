@@ -13,7 +13,7 @@ import {
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import OAuthSignIn from "./OAuthSignIn";
 import AdminHeader from "./components/Header/Header";
-import { UserContext } from './index'
+//import { UserContext } from './index'
 
 const styles = {
   box: {
@@ -25,7 +25,7 @@ const styles = {
 };
 
 function SignIn(props) {
-  const history = useHistory()
+  //const history = useHistory()
   //  const { state, dispatch } = useContext(UserContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -47,13 +47,13 @@ function SignIn(props) {
           alert(data.error)
         }
         else {
-          localStorage.setItem("jwt", data.token)
-          localStorage.setItem("user", JSON.stringify(data.user))
+          // localStorage.setItem("jwt", data.token)
+          // localStorage.setItem("user", JSON.stringify(data.user))
 
           //          dispatch({ type: "USER", payload: data.user })
           alert("Login Successful")
           console.log("Login Successful")
-          history.push('/')
+          //          history.push('/')
         }
       }).catch(err => console.log(err))
   }
