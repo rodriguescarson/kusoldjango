@@ -10,12 +10,15 @@ from django.contrib.auth.models import AbstractUser
 #     email = models.CharField(max_length=200, null=False)
 #     password = models.CharField(max_length=300, null=False)
 #     username = models.CharField(max_length=200, null=False)
-
+ 
 class User(AbstractUser):
-    email = models.EmailField(max_length = 25,unique=True)
-    password = models.CharField(max_length = 25)
+    email = models.EmailField(max_length = 250,unique=True)
+    password = models.CharField(max_length = 250)
     username = models.CharField(max_length=200)
-
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    contact_number = models.IntegerField()
+    business_name = models.CharField(max_length=50)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -24,3 +27,14 @@ class Admin(models.Model):
      password = models.CharField(max_length=300)
      username = models.CharField(max_length=200)
      cid = models.IntegerField
+
+
+# {
+#     "username" : "jrr",
+#     "email" : "mn@m.com",
+#     "password" : "jrr123",
+#     "first_name" : "jr",
+#     "last_name" : "rr",
+#     "contact_number" : 123456,
+#     "business_name" : "kusol"
+# }
