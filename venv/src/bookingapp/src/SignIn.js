@@ -30,7 +30,8 @@ function SignIn(props) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const PostData = () => {
+  const PostData = (e) => {
+    e.preventDefault();
     fetch("http://127.0.0.1:8000/api/login", {
       method: "post",
       headers: {
@@ -85,7 +86,7 @@ function SignIn(props) {
           Sign In
         </Typography>{" "}
         <br />
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={(event) => PostData(event)}>
           <Grid container direction={"column"} spacing={6}>
             <Grid item>
               <TextField

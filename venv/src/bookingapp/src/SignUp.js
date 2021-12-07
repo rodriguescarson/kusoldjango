@@ -65,7 +65,8 @@ function SignUp(props) {
     const [username, setUsername] = useState("");
 
 
-    function handleCreate() {
+    function handleCreate(e) {
+        e.preventDefault();
         fetch("http://127.0.0.1:8000/api/register", {
             method: "POST",
             headers: {
@@ -73,9 +74,13 @@ function SignUp(props) {
                 'Accept': 'application/json'
             }, body:
                 JSON.stringify({
-                    username: username,
-                    email: email,
-                    password: password
+                    username,
+                    email,
+                    password,
+                    fname,
+                    lname,
+                    contact,
+                    businessName
                 })
         }).then((res) => {
 
@@ -112,7 +117,7 @@ function SignUp(props) {
                 <Typography variant="h4" align="center">
                     Sign Up
                 </Typography> <br />
-                <form className={classes.forms} onSubmit={handleCreate}>
+                <form className={classes.forms} onSubmit={(event) => handleCreate(event)}>
 
                     <Grid container direction={'row'} spacing={2}>
                         <Grid item xl={6} md={6} sm={12} xs={12}>
