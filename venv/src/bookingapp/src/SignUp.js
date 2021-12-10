@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useHistory } from 'react-router-dom'
 import { Grid, Box, InputAdornment, Typography, Button, withStyles, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { PropTypes } from 'prop-types'
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -54,14 +55,16 @@ function TermsAndCond() {
 
 
 function SignUp(props) {
+    const history = useHistory()
+
     const { classes } = props;
-    const [fname, setFName] = useState("");
-    const [lname, setLName] = useState("");
+    const [first_name, setFName] = useState("");
+    const [last_name, setLName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [contact, setContact] = useState("");
-    const [businessName, setBusinessName] = useState("");
+    const [contact_number, setContact] = useState("");
+    const [business_name, setBusinessName] = useState("");
     const [username, setUsername] = useState("");
 
 
@@ -77,17 +80,15 @@ function SignUp(props) {
                     username,
                     email,
                     password,
-                    fname,
-                    lname,
-                    contact,
-                    businessName
+                    first_name,
+                    last_name,
+                    contact_number,
+                    business_name
                 })
-        }).then((res) => {
-
-            return res.json()
-        })
+        }).then((res) => { return res.json() })
             .then((res) => {
                 alert("usercreated!");
+                history.push('http://localhost:3000/signin');
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);
             });

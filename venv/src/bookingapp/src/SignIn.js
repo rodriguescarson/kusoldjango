@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { UserContext } from './App'
 import {
   Grid,
   Box,
@@ -25,8 +26,8 @@ const styles = {
 };
 
 function SignIn(props) {
-  //const history = useHistory()
-  //  const { state, dispatch } = useContext(UserContext)
+  const history = useHistory()
+  // const { state, dispatch } = useContext(UserContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -48,13 +49,13 @@ function SignIn(props) {
           alert(data.error)
         }
         else {
-          // localStorage.setItem("jwt", data.token)
-          // localStorage.setItem("user", JSON.stringify(data.user))
+          localStorage.setItem("jwt", data.token)
+          localStorage.setItem("user", JSON.stringify(data.user))
 
-          //          dispatch({ type: "USER", payload: data.user })
+          // dispatch({ type: "USER", payload: data.user })
           alert("Login Successful")
           console.log("Login Successful")
-          //          history.push('/')
+          history.push('http://localhost:3000')
         }
       }).catch(err => console.log(err))
   }
@@ -86,7 +87,7 @@ function SignIn(props) {
           Sign In
         </Typography>{" "}
         <br />
-        <form className={classes.form} onSubmit={(event) => PostData(event)}>
+        <form className={classes.form} onSubmit={(event) => { PostData(event) }}>
           <Grid container direction={"column"} spacing={6}>
             <Grid item>
               <TextField

@@ -128,12 +128,12 @@ function AdminHeader(props) {
             </ListItem>
           </a>
 
-          <a href={"/aboutus"}>
+          <a href={"/contact"}>
             <ListItem style={{ color: "#fff" }} className="draw-ig" button>
               <ListItemIcon >
                 <InfoIcon className="draw-ig" />
               </ListItemIcon>
-              <ListItemText primary={"About Us"} />
+              <ListItemText primary={"Contact Us"} />
             </ListItem>
           </a>
         </List>
