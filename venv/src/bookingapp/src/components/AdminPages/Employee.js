@@ -1,4 +1,3 @@
-import * as React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -7,6 +6,14 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
+
+
+import React, { useState } from "react";
+import { useHistory } from 'react-router-dom'
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const drawerWidth = 300;
 
@@ -31,7 +38,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 );
 
 const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID" },
     {
         field: "title",
         headerName: "Title",
@@ -93,6 +100,43 @@ const useStyles = makeStyles((theme) => ({
 export default function Employee() {
 
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const history = useHistory()
+
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const [appointmentAt, setAppointmentAt] = useState("");
+
+    function handleCreate(e) {
+        e.preventDefault();
+        fetch("http://127.0.0.1:8000/api/register", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }, body:
+                JSON.stringify({
+                    title,
+                    body,
+                    appointmentAt
+                })
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                alert("usercreated!");
+                history.push('http://localhost:3000/appointment');
+            }).catch((error) => {
+                alert('There was an error! Please re-check your form.' + error);
+            });
+    }
 
     return (
         <div className={classes.root}>
@@ -109,8 +153,40 @@ export default function Employee() {
                             color="secondary"
                             startIcon={<PersonAddIcon />}
                         >
-                            New User
+                            New Employee
                         </Button>
+                        <Dialog
+                            open={open}
+                            TransitionComponent={Transition}
+                            keepMounted
+                            onClose={handleClose}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle>{"Create Appointment"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    <form className={classes.forms} onSubmit={(event) => handleCreate(event)}>
+
+                                        <Grid container direction={'row'} spacing={2}>
+                                            <Grid item xl={6} md={6} sm={12} xs={12}>
+                                                <TextField id="standard-basic" onChange={e => setTitle(e.target.value)}
+                                                    label="Title" variant="outlined" />
+                                            </Grid>
+                                            <Grid item xl={6} md={6} sm={12} xs={12}>
+                                                <TextField onChange={e => setBody(e.target.value)}
+                                                    id="standard-basic" label="Body" variant="outlined" />
+                                            </Grid>
+                                        </Grid>
+                                        <br />
+                                        <TextField label="Appointment At" onChange={e => setAppointmentAt(e.target.value)}
+                                            type="appointmentAt" variant="outlined" fullWidth /> <br />
+                                    </form>
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} variant="contained" color="primary">Submit</Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
                     <div style={{ height: 400, width: "100%" }}>
                         <DataGrid rows={rows} columns={columns} checkboxSelection />
