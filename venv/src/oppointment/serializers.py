@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import Employee, User, Customer, Appointment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,3 +16,19 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['username','email','first_name','last_name','contact_number','working_days']
+        
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['username','email','password','first_name','last_name','contact_number']
+        
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['username','email','password','first_name','last_name','contact_number']
+        

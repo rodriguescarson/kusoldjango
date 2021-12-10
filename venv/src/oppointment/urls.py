@@ -1,7 +1,14 @@
 from django.urls import path, include
-from .views import RegisterView, LoginView
+from .views import CreateCustomer, CreateEmployee, RegisterView, LoginView
 urlpatterns = [
 
     path('register',RegisterView.as_view()),
     path('login',LoginView.as_view()),
+    path('createEmployee',CreateEmployee), 
+    path('createCustomer',CreateCustomer)
+    
+    
+   
+
+    
 ]

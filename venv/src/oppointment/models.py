@@ -28,7 +28,28 @@ class Admin(models.Model):
      username = models.CharField(max_length=200)
      cid = models.IntegerField
 
+class Employee(models.Model):
+    email = models.EmailField(max_length = 250,unique=True)
+    username = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    contact_number = models.IntegerField()
+    working_days = models.IntegerField()
 
+class Customer(models.Model):
+    email = models.EmailField(max_length = 250,unique=True)
+    username = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    contact_number = models.IntegerField()
+    
+class Appointment(models.Model):  
+    email = models.EmailField(max_length = 250,unique=True)
+    username = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    contact_number = models.IntegerField()    
+    
 # {
 #     "username" : "jrr",
 #     "email" : "mn@m.com",
