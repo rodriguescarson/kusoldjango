@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.fields import CharField
 from django.contrib.auth.models import AbstractUser
+from bson.objectid import ObjectId
 
 # Basic User
 
@@ -29,26 +30,21 @@ class Admin(models.Model):
      cid = models.IntegerField
 
 class Employee(models.Model):
-    email = models.EmailField(max_length = 250,unique=True)
-    username = models.CharField(max_length=200)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    contact_number = models.IntegerField()
-    working_days = models.IntegerField()
+   salary = models.IntegerField()
+   work_location = models.CharField(max_length=100)
 
 class Customer(models.Model):
-    email = models.EmailField(max_length = 250,unique=True)
-    username = models.CharField(max_length=200)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    contact_number = models.IntegerField()
+    organization = models.CharField(max_length=100)
+    position = models.CharField(max_length=100)
+    interests = models.CharField(max_length=100)
     
 class Appointment(models.Model):  
-    email = models.EmailField(max_length = 250,unique=True)
-    username = models.CharField(max_length=200)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    contact_number = models.IntegerField()    
+    employee_id = models.CharField(max_length=100)
+    customer_id =  models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    mode = models.CharField(max_length=100)
+    calender_id = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
     
 # {
 #     "username" : "jrr",
