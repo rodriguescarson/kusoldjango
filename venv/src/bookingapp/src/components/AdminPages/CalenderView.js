@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { ScheduleComponent, Week, Month, Inject, ViewsDirective, ViewDirective } from '@syncfusion/ej2-react-schedule';
 import { extend } from '@syncfusion/ej2-base';

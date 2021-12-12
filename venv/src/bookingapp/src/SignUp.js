@@ -58,13 +58,13 @@ function SignUp(props) {
     const history = useHistory()
 
     const { classes } = props;
-    const [first_name, setFName] = useState("");
-    const [last_name, setLName] = useState("");
+    const [firstName, setFName] = useState("");
+    const [lastName, setLName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [contact_number, setContact] = useState("");
-    const [business_name, setBusinessName] = useState("");
+    const [contactNumber, setContact] = useState("");
+    const [businessName, setBusinessName] = useState("");
     const [username, setUsername] = useState("");
 
 
@@ -80,10 +80,10 @@ function SignUp(props) {
                     username,
                     email,
                     password,
-                    first_name,
-                    last_name,
-                    contact_number,
-                    business_name
+                    firstName,
+                    lastName,
+                    contactNumber,
+                    businessName
                 })
         }).then((res) => { return res.json() })
             .then((res) => {
@@ -177,7 +177,6 @@ function SignUp(props) {
                     <br />
                     <div align="center">
                         <Button type="submit" variant="contained" color="primary">
-
                             Submit
                         </Button>
 

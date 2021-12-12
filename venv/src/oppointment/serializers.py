@@ -10,10 +10,10 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "password",
-            "first_name",
-            "last_name",
-            "contact_number",
-            "business_name",
+            "firstName",
+            "lastName",
+            "contactNumber",
+            "businessName",
         ]
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ["salary", "work_location"]
+        fields = ["salary", "workLocation"]
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -41,4 +41,12 @@ class CustomerSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
-        fields = ["employee_id", "customer_id", "location", "mode", "calender_id", "status"]
+        fields = [
+            "employeeId",
+            "customerId",
+            "location",
+            "mode",
+            "calenderId",
+            "status",
+            "appointmentAt",
+        ]

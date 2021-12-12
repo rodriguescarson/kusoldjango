@@ -81,7 +81,7 @@
     {
       "id": 1,
       "salary": "some comment",
-      "work_location": "goa"
+      "workLocation": "goa"
     }
   ],
   "roles": [

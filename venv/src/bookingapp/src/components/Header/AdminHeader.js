@@ -110,8 +110,8 @@ function AdminHeader() {
                 </DrawerHeader>
                 <List className="draw-ig">
                     {['Appointment', 'Calender', 'Customer', 'Employee', 'Role', 'User', 'WorkingHour'].map((text, index) => (
-                        <a style={{ color: "#fff" }} href={"/" + text + "s"}>
-                            <ListItem button key={text}>
+                        <a style={{ color: "#fff" }} href={"/" + text + "s"} key={index}>
+                            <ListItem button key={index}>
                                 <ListItemIcon className="draw-ig">
                                     <AssignmentIcon className="draw-ig" />
                                 </ListItemIcon>
@@ -123,9 +123,9 @@ function AdminHeader() {
 
                 <List className="draw-ig">
                     {['Support', 'Settings'].map((text, index) => (
-                        <a href={"/" + text + "s"}>
+                        <a href={"/" + text + "s"} key={index}>
 
-                            <ListItem style={{ color: "#fff" }} className="draw-ig" button key={text}>
+                            <ListItem style={{ color: "#fff" }} className="draw-ig" button key={index}>
                                 <ListItemIcon >
                                     {index % 3 === 1 ? < FavoriteIcon className="draw-ig" /> : <SettingsIcon className="draw-ig" />}
                                 </ListItemIcon>

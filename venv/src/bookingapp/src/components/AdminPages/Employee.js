@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -40,40 +40,19 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 const columns = [
     { field: "id", headerName: "ID" },
     {
-        field: "title",
-        headerName: "Title",
+        field: "salary",
+        headerName: "Salary",
         width: 150,
         editable: true
     },
     {
-        field: "body",
-        headerName: "Body",
+        field: "workLocation",
+        headerName: "Work Location",
         width: 150,
-        editable: true
-    },
-    {
-        field: "appointmentAt",
-        headerName: "Appointment At",
-        width: 200,
         editable: true
     }
 ];
 
-const rows = [
-    {
-        title: "Allegery",
-        body: "Rash",
-        appointmentAt: "2021-11-09",
-        id: 1
-    },
-    {
-        title: "Alleger",
-        body: "Rash",
-        appointmentAt: "2021-11-09",
-        id: 2
-    },
-
-];
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -111,28 +90,51 @@ export default function Employee() {
     };
 
     const history = useHistory()
+    const [salary, setSalary] = useState("");
+    const [workLocation, setWorkLocation] = useState("");
 
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
-    const [appointmentAt, setAppointmentAt] = useState("");
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+        getData();
+    }, []);
+
+    function getData() {
+        fetch("http://127.0.0.1:8000/api/createEmployee", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                console.log(res);
+                res = res.map(function (obj, i) {
+                    obj['id'] = i; // Assign new key
+                    return obj;
+                });
+                setRows(res);
+            }).catch((error) => {
+                alert('There was an error! Please re-check your form.' + error);
+            });
+    }
+
 
     function handleCreate(e) {
         e.preventDefault();
-        fetch("http://127.0.0.1:8000/api/register", {
+        fetch("http://127.0.0.1:8000/api/createEmployee", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }, body:
                 JSON.stringify({
-                    title,
-                    body,
-                    appointmentAt
+                    salary: parseInt(salary),
+                    workLocation
                 })
         }).then((res) => { return res.json() })
             .then((res) => {
-                alert("usercreated!");
-                history.push('http://localhost:3000/appointment');
+                handleClose()
+                alert("employee created!");
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);
             });
@@ -152,6 +154,8 @@ export default function Employee() {
                             variant="outlined"
                             color="secondary"
                             startIcon={<PersonAddIcon />}
+                            onClick={handleClickOpen}
+
                         >
                             New Employee
                         </Button>
@@ -162,30 +166,29 @@ export default function Employee() {
                             onClose={handleClose}
                             aria-describedby="alert-dialog-slide-description"
                         >
-                            <DialogTitle>{"Create Appointment"}</DialogTitle>
+                            <DialogTitle>{"Create Employee"}</DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
-                                    <form className={classes.forms} onSubmit={(event) => handleCreate(event)}>
 
-                                        <Grid container direction={'row'} spacing={2}>
-                                            <Grid item xl={6} md={6} sm={12} xs={12}>
-                                                <TextField id="standard-basic" onChange={e => setTitle(e.target.value)}
-                                                    label="Title" variant="outlined" />
-                                            </Grid>
-                                            <Grid item xl={6} md={6} sm={12} xs={12}>
-                                                <TextField onChange={e => setBody(e.target.value)}
-                                                    id="standard-basic" label="Body" variant="outlined" />
-                                            </Grid>
+                                    <Grid container direction={'row'} spacing={2}>
+                                        <Grid item xl={6} md={6} sm={12} xs={12}>
+                                            <TextField id="standard-basic" onChange={e => setSalary(e.target.value)}
+                                                label="Salary" variant="outlined" />
                                         </Grid>
-                                        <br />
-                                        <TextField label="Appointment At" onChange={e => setAppointmentAt(e.target.value)}
-                                            type="appointmentAt" variant="outlined" fullWidth /> <br />
-                                    </form>
+                                        <Grid item xl={6} md={6} sm={12} xs={12}>
+                                            <TextField onChange={e => setWorkLocation(e.target.value)}
+                                                id="standard-basic" label="Work Location" variant="outlined" />
+                                        </Grid>
+                                    </Grid>
+
+                                    <br />
+
                                 </DialogContentText>
+                                <DialogActions>
+                                    <Button type="submit" variant="contained" color="primary" onClick={(event) => handleCreate(event)}>Submit</Button>
+                                </DialogActions>
                             </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose} variant="contained" color="primary">Submit</Button>
-                            </DialogActions>
+
                         </Dialog>
                     </div>
                     <div style={{ height: 400, width: "100%" }}>

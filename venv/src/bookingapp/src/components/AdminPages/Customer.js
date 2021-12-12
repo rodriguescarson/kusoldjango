@@ -7,7 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -34,43 +34,26 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         }),
     }),
 );
-
 const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
-        field: "title",
-        headerName: "Title",
+        field: "organization",
+        headerName: "organization",
         width: 150,
         editable: true
     },
     {
-        field: "body",
-        headerName: "Body",
+        field: "position",
+        headerName: "position",
         width: 150,
         editable: true
     },
     {
-        field: "appointmentAt",
-        headerName: "Appointment At",
+        field: "interests",
+        headerName: "interests",
         width: 200,
         editable: true
     }
-];
-
-const rows = [
-    {
-        title: "Allegery",
-        body: "Rash",
-        appointmentAt: "2021-11-09",
-        id: 1
-    },
-    {
-        title: "Alleger",
-        body: "Rash",
-        appointmentAt: "2021-11-09",
-        id: 2
-    },
-
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -109,28 +92,53 @@ export default function Customer() {
     };
 
     const history = useHistory()
+    const [organization, setOrganization] = useState("");
+    const [position, setPosition] = useState("");
+    const [interests, setInterests] = useState("");
 
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
-    const [appointmentAt, setAppointmentAt] = useState("");
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+        getData();
+    }, []);
+
+    function getData() {
+        fetch("http://127.0.0.1:8000/api/createCustomer", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                console.log(res);
+                res = res.map(function (obj, i) {
+                    obj['id'] = i; // Assign new key
+                    return obj;
+                });
+                setRows(res);
+            }).catch((error) => {
+                alert('There was an error! Please re-check your form.' + error);
+            });
+    }
+
 
     function handleCreate(e) {
         e.preventDefault();
-        fetch("http://127.0.0.1:8000/api/register", {
+        fetch("http://127.0.0.1:8000/api/createCustomer", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }, body:
                 JSON.stringify({
-                    title,
-                    body,
-                    appointmentAt
+                    organization,
+                    position,
+                    interests
                 })
         }).then((res) => { return res.json() })
             .then((res) => {
-                alert("usercreated!");
-                history.push('http://localhost:3000/appointment');
+                handleClose();
+                alert("Customer created!");
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);
             });
@@ -151,6 +159,7 @@ export default function Customer() {
                         <Button
                             variant="outlined"
                             color="secondary"
+                            onClick={handleClickOpen}
                             startIcon={<PersonAddIcon />}
                         >
                             New Customer
@@ -165,26 +174,23 @@ export default function Customer() {
                             <DialogTitle>{"Create Appointment"}</DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
-                                    <form className={classes.forms} onSubmit={(event) => handleCreate(event)}>
-
-                                        <Grid container direction={'row'} spacing={2}>
-                                            <Grid item xl={6} md={6} sm={12} xs={12}>
-                                                <TextField id="standard-basic" onChange={e => setTitle(e.target.value)}
-                                                    label="Title" variant="outlined" />
-                                            </Grid>
-                                            <Grid item xl={6} md={6} sm={12} xs={12}>
-                                                <TextField onChange={e => setBody(e.target.value)}
-                                                    id="standard-basic" label="Body" variant="outlined" />
-                                            </Grid>
+                                    <Grid container direction={'row'} spacing={2}>
+                                        <Grid item xl={6} md={6} sm={12} xs={12}>
+                                            <TextField id="standard-basic" onChange={e => setOrganization(e.target.value)}
+                                                label="organization" variant="outlined" />
                                         </Grid>
-                                        <br />
-                                        <TextField label="Appointment At" onChange={e => setAppointmentAt(e.target.value)}
-                                            type="appointmentAt" variant="outlined" fullWidth /> <br />
-                                    </form>
+                                        <Grid item xl={6} md={6} sm={12} xs={12}>
+                                            <TextField onChange={e => setPosition(e.target.value)}
+                                                id="standard-basic" label="position" variant="outlined" />
+                                        </Grid>
+                                    </Grid>
+                                    <br />
+                                    <TextField label="interests" onChange={e => setInterests(e.target.value)}
+                                        type="interests" variant="outlined" fullWidth /> <br />
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} variant="contained" color="primary">Submit</Button>
+                                <Button type="submit" variant="contained" color="primary" onClick={(event) => handleCreate(event)}>Submit</Button>
                             </DialogActions>
                         </Dialog>
                     </div>

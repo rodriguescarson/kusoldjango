@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,40 +34,50 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
 );
 
+
 const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID" },
     {
-        field: "title",
-        headerName: "Title",
+        field: "employeeId",
+        headerName: "employeeId",
         width: 150,
         editable: true
     },
     {
-        field: "body",
-        headerName: "Body",
+        field: "customerId",
+        headerName: "customerId",
+        width: 150,
+        editable: true
+    },
+    {
+        field: "location",
+        headerName: "location",
+        width: 150,
+        editable: true
+    },
+    {
+        field: "mode",
+        headerName: "mode",
+        width: 150,
+        editable: true
+    },
+    {
+        field: "calenderId",
+        headerName: "calenderId",
+        width: 150,
+        editable: true
+    },
+    {
+        field: "status",
+        headerName: "status",
         width: 150,
         editable: true
     },
     {
         field: "appointmentAt",
-        headerName: "Appointment At",
-        width: 200,
+        headerName: "appointmentAt",
+        width: 150,
         editable: true
-    }
-];
-
-const rows = [
-    {
-        title: "Allegery",
-        body: "Rash",
-        appointmentAt: "2021-11-09",
-        id: 1
-    },
-    {
-        title: "Alleger",
-        body: "Rash",
-        appointmentAt: "2021-11-09",
-        id: 2
     },
 
 ];
@@ -109,32 +119,66 @@ export default function Appointment() {
 
     const history = useHistory()
 
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
+
+    const [employeeId, setEmployeeId] = useState("");
+    const [customerId, setCustomerId] = useState("");
+    const [location, setLocation] = useState("");
+    const [mode, setMode] = useState("");
+    const [calenderId, setCalenderId] = useState("");
+    const [status, setStatus] = useState("");
     const [appointmentAt, setAppointmentAt] = useState("");
+
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+        getData();
+    }, []);
+
+    function getData() {
+        fetch("http://127.0.0.1:8000/api/createAppointment", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                console.log(res);
+                res = res.map(function (obj, i) {
+                    obj['id'] = i; // Assign new key
+                    return obj;
+                });
+                setRows(res);
+            }).catch((error) => {
+                alert('There was an error! Please re-check your form.' + error);
+            });
+    }
 
     function handleCreate(e) {
         e.preventDefault();
-        fetch("http://127.0.0.1:8000/api/register", {
+        fetch("http://127.0.0.1:8000/api/createAppointment", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }, body:
                 JSON.stringify({
-                    title,
-                    body,
+                    employeeId,
+                    customerId,
+                    location,
+                    mode,
+                    calenderId,
+                    status,
                     appointmentAt
                 })
         }).then((res) => { return res.json() })
             .then((res) => {
-                alert("usercreated!");
-                history.push('http://localhost:3000/appointment');
+
+                handleClose()
+                alert("Appointment Created!");
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);
             });
     }
-
     return (
         <div className={classes.root}>
             <AdminHeader />
@@ -163,27 +207,41 @@ export default function Appointment() {
                             <DialogTitle>{"Create Appointment"}</DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
-                                    <form className={classes.forms} onSubmit={(event) => handleCreate(event)}>
 
-                                        <Grid container direction={'row'} spacing={2}>
-                                            <Grid item xl={6} md={6} sm={12} xs={12}>
-                                                <TextField id="standard-basic" onChange={e => setTitle(e.target.value)}
-                                                    label="Title" variant="outlined" />
-                                            </Grid>
-                                            <Grid item xl={6} md={6} sm={12} xs={12}>
-                                                <TextField onChange={e => setBody(e.target.value)}
-                                                    id="standard-basic" label="Body" variant="outlined" />
-                                            </Grid>
+                                    <Grid container direction={'row'} spacing={2}>
+                                        <Grid item xl={6} md={6} sm={12} xs={12}>
+                                            <TextField id="standard-basic" onChange={e => setCustomerId(e.target.value)}
+                                                label="Customer Id" variant="outlined" />
                                         </Grid>
-                                        <br />
-                                        <TextField label="Appointment At" onChange={e => setAppointmentAt(e.target.value)}
-                                            type="appointmentAt" variant="outlined" fullWidth /> <br />
-                                    </form>
+                                        <Grid item xl={6} md={6} sm={12} xs={12}>
+                                            <TextField id="standard-basic" onChange={e => setEmployeeId(e.target.value)}
+                                                label="EmployeeId" variant="outlined" />
+
+                                        </Grid>
+                                    </Grid>
+                                    <br />
+                                    <TextField onChange={e => setLocation(e.target.value)}
+                                        label="Location" variant="outlined" fullWidth />
+                                    <br />
+                                    <TextField label="Mode" onChange={e => setMode(e.target.value)}
+                                        type="mode" variant="outlined" fullWidth /> <br />
+                                    <TextField label="calenderId" onChange={e => setCalenderId(e.target.value)}
+                                        type="calenderId" variant="outlined" fullWidth /> <br />
+
+                                    <TextField label="status" onChange={e => setStatus(e.target.value)}
+                                        type="status" variant="outlined" fullWidth /> <br />
+
+                                    <TextField label="Appointment At" onChange={e => setAppointmentAt(e.target.value)}
+                                        type="appointmentAt" variant="outlined" fullWidth /> <br />
+
+
                                 </DialogContentText>
+
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} variant="contained" color="primary">Submit</Button>
+                                <Button type="submit" variant="contained" color="primary" onClick={(event) => handleCreate(event)}>Submit</Button>
                             </DialogActions>
+
                         </Dialog>
                     </div>
                     <div style={{ height: 400, width: "100%" }}>
