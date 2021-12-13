@@ -87,8 +87,8 @@ function SignUp(props) {
                 })
         }).then((res) => { return res.json() })
             .then((res) => {
-                alert("usercreated!");
-                history.push('http://localhost:3000/signin');
+                alert(res);
+                // history.push('/');
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);
             });

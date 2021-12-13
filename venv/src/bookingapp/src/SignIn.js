@@ -50,12 +50,10 @@ function SignIn(props) {
         }
         else {
           localStorage.setItem("jwt", data.token)
-          localStorage.setItem("user", JSON.stringify(data.user))
+          localStorage.setItem("user", JSON.stringify(data))
 
           // dispatch({ type: "USER", payload: data.user })
-          alert("Login Successful")
-          console.log("Login Successful")
-          history.push('http://localhost:3000')
+          console.log(data)
         }
       }).catch(err => console.log(err))
   }
@@ -121,7 +119,7 @@ function SignIn(props) {
             <Grid item align="center">
               <Button
                 type="submit"
-                onClick={() => PostData()}
+                onClick={(event) => PostData(event)}
                 variant="contained"
                 color="primary"
               >

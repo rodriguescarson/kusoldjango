@@ -13,6 +13,8 @@ from .models import Appointment, Customer, Employee, User
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
+from django.core import serializers
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -35,13 +37,11 @@ class LoginView(APIView):
         user = User.objects.filter(
             email=email
         ).first()  # User is the collection here ok, should i copy this api code and make changes? wait
-        print(user)
         if user is None:
             raise AuthenticationFailed("User not found")
 
         if not user.check_password(password):
             raise AuthenticationFailed("Incorrect Password")
-
         return Response({"message": "success"})
 
 
@@ -53,7 +53,7 @@ def CreateEmployee(request):
         return JsonResponse(employee_seri.data, safe=False)
 
     if request.method == "POST":
-        print('hello')
+        print("hello")
         employee_data = JSONParser().parse(request)
         serializer = EmployeeSerializer(data=employee_data)
         serializer.is_valid(raise_exception=True)
