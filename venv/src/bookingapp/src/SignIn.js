@@ -32,7 +32,7 @@ function SignIn(props) {
   const [password, setPassword] = useState("")
 
   const PostData = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     fetch("http://127.0.0.1:8000/api/login", {
       method: "post",
       headers: {
@@ -56,6 +56,7 @@ function SignIn(props) {
           console.log(data)
         }
       }).catch(err => console.log(err))
+      e.preventDefault();
   }
 
   const { classes } = props;
