@@ -122,12 +122,12 @@ function AdminHeader() {
                 </List>
 
                 <List className="draw-ig">
-                    {['Support', 'Settings'].map((text, index) => (
+                    {['Support', 'Settings', 'Signout'].map((text, index) => (
                         <a href={"/" + text + "s"} key={index}>
 
                             <ListItem style={{ color: "#fff" }} className="draw-ig" button key={index}>
                                 <ListItemIcon >
-                                    {index % 3 === 1 ? < FavoriteIcon className="draw-ig" /> : <SettingsIcon className="draw-ig" />}
+                                    <SettingsIcon className="draw-ig" />
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
