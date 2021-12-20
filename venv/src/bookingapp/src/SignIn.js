@@ -14,7 +14,9 @@ import {
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import OAuthSignIn from "./OAuthSignIn";
 import AdminHeader from "./components/Header/Header";
-//import { UserContext } from './index'
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const styles = {
   box: {
@@ -27,14 +29,14 @@ const styles = {
 
 function SignIn(props) {
   const history = useHistory()
-  // const { state, dispatch } = useContext(UserContext)
+  const { state, dispatch } = useContext(UserContext)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const PostData = (e) => {
-    // e.preventDefault();
     fetch("http://127.0.0.1:8000/api/login", {
       method: "post",
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json"
       },
@@ -49,14 +51,20 @@ function SignIn(props) {
           alert(data.error)
         }
         else {
-          localStorage.setItem("jwt", data.token)
-          localStorage.setItem("user", JSON.stringify(data))
+          localStorage.setItem("jwt", data.jwt)
+          localStorage.setItem("user", JSON.stringify(data.user))
+          // let d = new Date();
+          // d.setTime(d.getTime() + (10 * 60 * 1000));
 
-          // dispatch({ type: "USER", payload: data.user })
+          cookies.set("jwt", data.jwt, { path: "/" });
+          cookies.set("user", JSON.stringify(data.user), { path: "/" });
+
+          dispatch({ type: "USER", payload: data.user })
+
           console.log(data)
         }
       }).catch(err => console.log(err))
-      e.preventDefault();
+    e.preventDefault();
   }
 
   const { classes } = props;

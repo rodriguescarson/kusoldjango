@@ -87,7 +87,7 @@ function SignUp(props) {
                 })
         }).then((res) => { return res.json() })
             .then((res) => {
-                alert(res);
+                alert(JSON.stringify(res));
                 // history.push('/');
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);

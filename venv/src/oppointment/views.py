@@ -15,7 +15,7 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from django.core import serializers
 from django.http import JsonResponse
-
+from django.middleware.csrf import get_token
 import jwt,datetime
 # Create your views here.
 
@@ -54,8 +54,10 @@ class LoginView(APIView):
         
         response = Response()
         response.set_cookie(key='jwt',value=token,httponly=True)
+        
         response.data = {
-            'jwt' : token
+            'jwt' : token,
+            "user": UserSerializer(user).data
         }
 
         return response
@@ -63,7 +65,10 @@ class LoginView(APIView):
 
 class UserView(APIView):
     def get(self,request):
-        token = request.COOKIES.get('jwt')
+        # token = request.COOKIES.get('jwt')   
+        print( request.COOKIES )  
+        print(get_token(request))
+        token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjAsImV4cCI6MTYzOTk2ODI4MywiaWF0IjoxNjM5OTY0NjgzfQ.guyMDacb1DvdOz1hmKLpaUOHfwtXsfR5J0TtF4DGnPE'   
         if not token:
             raise AuthenticationFailed('Unauthenticated')
         
@@ -74,7 +79,7 @@ class UserView(APIView):
         
         user = User.objects.filter(id = payload['id']).first()
         serializer= UserSerializer(user)
-
+        print(serializer.data)
         return Response(serializer.data)
 
 
@@ -125,3 +130,12 @@ def CreateAppointment(request):
         serializer.save()
         print("okk")
         return Response(serializer.data)
+    
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt')
+        response.data = {
+            'message': 'success'
+        }
+        return response

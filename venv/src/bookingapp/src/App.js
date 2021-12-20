@@ -15,21 +15,24 @@ import User from "./components/AdminPages/User";
 import Employee from "./components/AdminPages/Employee";
 import WorkingHours from "./components/AdminPages/WorkingHours";
 import { reducer, initialState } from './userReducer'
+import Cookies from 'universal-cookie';
 
 export const UserContext = createContext()
+const cookies = new Cookies();
 
 const Routing = () => {
-  // const history = useHistory()
-  // const { state, dispatch } = useContext(UserContext)
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("user"))
+  const history = useHistory()
+  const { state, dispatch } = useContext(UserContext)
+  useEffect(() => {
+    console.log(cookies.get("user"))
+    const user = cookies.get("user")
 
-  //   if (user) {
-  //     dispatch({ type: "USER", payload: user })
-  //   } else {
-  //     history.push('http://localhost:3000/signin')
-  //   }
-  // }, [])
+    if (user) {
+      dispatch({ type: "USER", payload: user })
+    } else {
+      history.push('/signin')
+    }
+  }, [])
 
   return (
 
@@ -58,11 +61,11 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    // <UserContext.Provider value={{ state, dispatch }}>
-    <BrowserRouter>
-      <Routing />
-    </BrowserRouter>
-    // </UserContext.Provider>
+    <UserContext.Provider value={{ state, dispatch }}>
+      <BrowserRouter>
+        <Routing />
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

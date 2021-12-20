@@ -10,6 +10,9 @@ import AdminHeader from "../Header/AdminHeader";
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -119,6 +122,20 @@ export default function Customer() {
             }).catch((error) => {
                 alert('There was an error! Please re-check your form.' + error);
             });
+
+        fetch("http://127.0.0.1:8000/api/user", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then((res) => { return res.json() })
+            .then((res) => {
+                console.log(res);
+            }).catch((error) => {
+                alert('There was an error! Please re-check your form.' + error);
+            });
+
     }
 
 

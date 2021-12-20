@@ -56,6 +56,27 @@ function AdminHeader() {
         setOpen(false);
     };
 
+    const Logout = (e) => {
+        e.preventDefault();
+        fetch("http://127.0.0.1:8000/api/logout", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    console.log(data.error)
+                    alert(data.error)
+                }
+                else {
+                    console.log(data)
+                }
+            }).catch(err => console.log(err))
+        e.preventDefault();
+    }
+
+
     return (
         <div>
             <CssBaseline />
@@ -123,16 +144,26 @@ function AdminHeader() {
 
                 <List className="draw-ig">
                     {['Support', 'Settings'].map((text, index) => (
-                        <a href={"/" + text + "s"} key={index}>
+                        <a href={"/" + text} key={index}>
 
                             <ListItem style={{ color: "#fff" }} className="draw-ig" button key={index}>
                                 <ListItemIcon >
-                                    {index % 3 === 1 ? < FavoriteIcon className="draw-ig" /> : <SettingsIcon className="draw-ig" />}
+                                    <SettingsIcon className="draw-ig" />
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                         </a>
                     ))}
+
+                    <a href={"/logout"} key={3}>
+
+                        <ListItem style={{ color: "#fff" }} className="draw-ig" button key={3} onClick={(event) => { Logout(event) }}>
+                            <ListItemIcon >
+                                <SettingsIcon className="draw-ig" />
+                            </ListItemIcon>
+                            <ListItemText primary={'Logout'} />
+                        </ListItem>
+                    </a>
                 </List>
 
             </Drawer>

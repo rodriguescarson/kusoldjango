@@ -55,7 +55,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangoproject.urls'
 
+ALLOWED_HOSTS = ['*']
+
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
@@ -63,6 +69,18 @@ CORS_ORIGIN_WHITELIST = [
     'http://192.168.56.1:3000'
 ]
 
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'withCredentials'
+]
 
 TEMPLATES = [
     {

@@ -5,7 +5,8 @@ from .views import (
     CreateEmployee,
     RegisterView,
     LoginView,
-    UserView
+    UserView,
+    LogoutView
 )
 
 urlpatterns = [
@@ -14,5 +15,6 @@ urlpatterns = [
     path('user',UserView.as_view()),
     path("createEmployee", CreateEmployee),
     path("createCustomer", CreateCustomer),
-    path("createAppointment", CreateAppointment)
+    path("createAppointment", CreateAppointment),
+    path('logout', LogoutView.as_view())
 ]
