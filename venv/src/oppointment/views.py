@@ -65,15 +65,16 @@ class LoginView(APIView):
 
 class UserView(APIView):
     def get(self,request):
-        # token = request.COOKIES.get('jwt')   
-        print( request.COOKIES )  
-        print(get_token(request))
-        token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjAsImV4cCI6MTYzOTk2ODI4MywiaWF0IjoxNjM5OTY0NjgzfQ.guyMDacb1DvdOz1hmKLpaUOHfwtXsfR5J0TtF4DGnPE'   
-        if not token:
+        print(request.headers)
+        token = request.headers.get('Authorization')
+        jwt_token = token.split(' ')[1]
+        print(jwt_token)
+        #token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjAsImV4cCI6MTYzOTk2ODI4MywiaWF0IjoxNjM5OTY0NjgzfQ.guyMDacb1DvdOz1hmKLpaUOHfwtXsfR5J0TtF4DGnPE'   
+        if not jwt_token:
             raise AuthenticationFailed('Unauthenticated')
         
         try:
-            payload = jwt.decode(token,'secret',algorithm = ['HS256'])
+            payload = jwt.decode(jwt_token,'secret',algorithm = ['HS256'])
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('Unauthenticated')
         

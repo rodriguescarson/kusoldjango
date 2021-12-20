@@ -127,7 +127,8 @@ export default function Customer() {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                "Authorization": "Token " + cookies.get("jwt")
             }
         }).then((res) => { return res.json() })
             .then((res) => {

@@ -57,7 +57,7 @@ function SignIn(props) {
           // d.setTime(d.getTime() + (10 * 60 * 1000));
 
           cookies.set("jwt", data.jwt, { path: "/" });
-          cookies.set("user", JSON.stringify(data.user), { path: "/" });
+          cookies.set("user", JSON.stringify(data.user), { path: "/", domain: "/" });
 
           dispatch({ type: "USER", payload: data.user })
 
