@@ -1,10 +1,9 @@
-import * as React from "react";
+import { useContext, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
@@ -18,6 +17,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { UserContext } from '../../App'
 const drawerWidth = 300;
 
 const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== 'open', })(({ theme, open }) => ({
@@ -46,8 +46,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 function AdminHeader() {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-
+    const [open, setOpen] = useState(false);
+    const { state, dispatch } = useContext(UserContext)
     const handleDrawerOpen = () => {
         setOpen(true);
     };

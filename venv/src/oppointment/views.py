@@ -54,7 +54,7 @@ class LoginView(APIView):
         
         response = Response()
         response.set_cookie(key='jwt',value=token,httponly=True)
-        
+        print(user)        
         response.data = {
             'jwt' : token,
             "user": UserSerializer(user).data
@@ -65,11 +65,8 @@ class LoginView(APIView):
 
 class UserView(APIView):
     def get(self,request):
-        print(request.headers)
         token = request.headers.get('Authorization')
         jwt_token = token.split(' ')[1]
-        print(jwt_token)
-        #token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjAsImV4cCI6MTYzOTk2ODI4MywiaWF0IjoxNjM5OTY0NjgzfQ.guyMDacb1DvdOz1hmKLpaUOHfwtXsfR5J0TtF4DGnPE'   
         if not jwt_token:
             raise AuthenticationFailed('Unauthenticated')
         

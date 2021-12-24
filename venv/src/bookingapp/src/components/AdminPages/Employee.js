@@ -6,9 +6,9 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
+import { UserContext } from '../../App'
 
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -80,7 +80,7 @@ export default function Employee() {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-
+    const { state, dispatch } = useContext(UserContext)
     const handleClickOpen = () => {
         setOpen(true);
     };

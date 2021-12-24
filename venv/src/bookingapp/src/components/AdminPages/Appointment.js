@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,7 +9,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
-
+import { UserContext } from '../../App'
 const drawerWidth = 300;
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Appointment() {
-
+    const { state, dispatch } = useContext(UserContext)
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 

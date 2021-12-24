@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useContext } from "react";
+import { UserContext } from '../../App'
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default function WorkingHours() {
 
     const classes = useStyles();
-
+    const { state, dispatch } = useContext(UserContext)
     return (
         <div className={classes.root}>
             <AdminHeader />

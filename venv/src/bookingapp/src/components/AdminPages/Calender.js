@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -7,7 +7,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
-
+import { UserContext } from '../../App'
 const drawerWidth = 300;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Calender() {
-
+    const { state, dispatch } = useContext(UserContext)
     const classes = useStyles();
 
     return (

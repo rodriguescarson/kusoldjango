@@ -1,3 +1,4 @@
+import { UserContext } from '../../App'
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -7,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from '@mui/material/styles';
 import AdminHeader from "../Header/AdminHeader";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from 'react-router-dom'
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid, TextField } from '@material-ui/core';
 import Cookies from 'universal-cookie';
@@ -82,6 +83,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Customer() {
+
+    const { state, dispatch } = useContext(UserContext)
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);

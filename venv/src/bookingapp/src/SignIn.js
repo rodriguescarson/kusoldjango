@@ -51,13 +51,9 @@ function SignIn(props) {
           alert(data.error)
         }
         else {
-          localStorage.setItem("jwt", data.jwt)
-          localStorage.setItem("user", JSON.stringify(data.user))
-          // let d = new Date();
-          // d.setTime(d.getTime() + (10 * 60 * 1000));
-
+          console.log(data.user)
           cookies.set("jwt", data.jwt, { path: "/" });
-          cookies.set("user", JSON.stringify(data.user), { path: "/", domain: "/" });
+          cookies.set("user", JSON.stringify(data.user), { path: "/" });
 
           dispatch({ type: "USER", payload: data.user })
 
