@@ -134,8 +134,9 @@ def CreateCustomer(request):
 class AppointmentView(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
-    def post(self,request):
+    def create(self,request):
         serializer = AppointmentSerializer(data = request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'status':'success','data':serializer.data})

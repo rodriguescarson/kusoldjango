@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ["salary", "workLocation"]
+        fields = ('__all__')
 
 
 class CustomerSerializer(serializers.ModelSerializer):
