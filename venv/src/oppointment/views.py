@@ -8,7 +8,7 @@ from .serializers import (
     EmployeeSerializer,
     UserSerializer,
 )
-from .models import Appointment
+from .models import Appointment, Employee
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .models import Appointment, Customer, Employee, User
@@ -83,21 +83,33 @@ class UserView(APIView):
         return Response(serializer.data)
 
 
-@api_view(["GET", "POST", "DELETE"])
-def CreateEmployee(request):
-    if request.method == "GET":
-        employee = Employee.objects.all()
-        employee_seri = EmployeeSerializer(employee, many=True)
-        return JsonResponse(employee_seri.data, safe=False)
+# @api_view(["GET", "POST", "DELETE"])
+# def CreateEmployee(request):
+#     if request.method == "GET":
+#         employee = Employee.objects.all()
+#         employee_seri = EmployeeSerializer(employee, many=True)
+#         return JsonResponse(employee_seri.data, safe=False)
 
-    if request.method == "POST":
-        print("hello")
-        employee_data = JSONParser().parse(request)
-        serializer = EmployeeSerializer(data=employee_data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        print("okk")
-        return Response(serializer.data)
+#     if request.method == "POST":
+#         print("hello")
+#         employee_data = JSONParser().parse(request)
+#         serializer = EmployeeSerializer(data=employee_data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         print("okk")
+#         return Response(serializer.data)
+
+class CreateEmployee(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    def create(self,request):
+        serializer = EmployeeSerializer(data = request.data)
+        print(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status':'success','data':serializer.data})
+        else:
+            return Response({'status':'error'})
 
 
 @api_view(["GET", "POST", "DELETE"])

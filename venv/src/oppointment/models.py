@@ -33,6 +33,7 @@ class Admin(models.Model):
 
 
 class Employee(models.Model):
+    employee_id = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     salary = models.IntegerField()
     workLocation = models.CharField(max_length=100)

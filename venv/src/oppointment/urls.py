@@ -11,11 +11,12 @@ from .views import (
 )
 router = routers.DefaultRouter()
 router.register('appointment',AppointmentView)
+router.register('createEmployee',CreateEmployee)
 urlpatterns = [
     path("register", RegisterView.as_view()),
     path("login", LoginView.as_view()),
     path('user',UserView.as_view()),
-    path("createEmployee", CreateEmployee),
+    # path("createEmployee", CreateEmployee),
     path("createCustomer", CreateCustomer),
     path("", include(router.urls)),
     path('logout', LogoutView.as_view())
