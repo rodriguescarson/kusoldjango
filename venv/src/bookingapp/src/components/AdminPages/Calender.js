@@ -109,7 +109,7 @@ export default function Calender() {
                             color="secondary"
                             startIcon={<PersonAddIcon />}
                         >
-                            New User
+                            New Appointment
                         </Button>
                     </div>
                     <div style={{ height: 400, width: "100%" }}>
