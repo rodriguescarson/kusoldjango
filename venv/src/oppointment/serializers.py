@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ["salary", "workLocation"]
+        fields = ('__all__')
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -41,12 +41,4 @@ class CustomerSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
-        fields = [
-            "employeeId",
-            "customerId",
-            "location",
-            "mode",
-            "calenderId",
-            "status",
-            "appointmentAt",
-        ]
+        fields = ('__all__')

@@ -8,6 +8,8 @@ from .serializers import (
     EmployeeSerializer,
     UserSerializer,
 )
+from .models import Appointment
+from rest_framework import viewsets
 from rest_framework.response import Response
 from .models import Appointment, Customer, Employee, User
 from rest_framework.exceptions import AuthenticationFailed
@@ -114,20 +116,32 @@ def CreateCustomer(request):
         return Response(serializer.data)
 
 
-@api_view(["GET", "POST", "DELETE"])
-def CreateAppointment(request):
-    if request.method == "GET":
-        appointment = Appointment.objects.all()
-        appoint_seri = AppointmentSerializer(appointment, many=True)
-        return JsonResponse(appoint_seri.data, safe=False)
+# @api_view(["GET", "POST", "DELETE"])
+# def CreateAppointment(request):
+#     if request.method == "GET":
+#         appointment = Appointment.objects.all()
+#         appoint_seri = AppointmentSerializer(appointment, many=True)
+#         return JsonResponse(appoint_seri.data, safe=False)
 
-    if request.method == "POST":
-        appoint_data = JSONParser().parse(request)
-        serializer = AppointmentSerializer(data=appoint_data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        print("okk")
-        return Response(serializer.data)
+#     if request.method == "POST":
+#         appoint_data = JSONParser().parse(request)
+#         serializer = AppointmentSerializer(data=appoint_data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         print("okk")
+#         return Response(serializer.data)
+
+class AppointmentView(viewsets.ModelViewSet):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+    def create(self,request):
+        serializer = AppointmentSerializer(data = request.data)
+        print(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status':'success','data':serializer.data})
+        else:
+            return Response({'status':'error'})
     
 class LogoutView(APIView):
     def post(self, request):

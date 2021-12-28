@@ -33,6 +33,7 @@ class Admin(models.Model):
 
 
 class Employee(models.Model):
+    name = models.CharField(max_length=200)
     salary = models.IntegerField()
     workLocation = models.CharField(max_length=100)
 
@@ -44,13 +45,10 @@ class Customer(models.Model):
 
 
 class Appointment(models.Model):
-    employeeId = models.CharField(max_length=100)
-    customerId = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    mode = models.CharField(max_length=100)
-    calenderId = models.CharField(max_length=100)
-    status = models.CharField(max_length=100)
-    appointmentAt = models.CharField(max_length=100)
+    employeeId = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    date = models.DateTimeField()
 
 
 # {
