@@ -58,6 +58,7 @@ function SignIn(props) {
           dispatch({ type: "USER", payload: data.user })
 
           console.log(data)
+          history.push('/customers')
         }
       }).catch(err => console.log(err))
     e.preventDefault();
